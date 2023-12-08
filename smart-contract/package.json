@@ -1,0 +1,6 @@
+{
+  "name": "hardhat-project",
+  "dependencies": {
+    "@api3/airnode-protocol": "^0.13.0"
+  }
+}
