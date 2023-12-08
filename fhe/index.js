@@ -18,8 +18,10 @@ const privateKey = new paillierBigint.PrivateKey(2788909547023925355202581721019
 function in_permitted_location(enc_ul, area_range){
  
   enc_ul.reduce((accum, digit) => (accum * 10n) + BigInt(digit), 0n);
-  const dec_ul_lon = privateKey.decrypt(BigInt(enc_ul[0]));
-  const dec_ul_lat = privateKey.decrypt(BigInt(enc_ul[1]));
+  // const dec_ul_lon = privateKey.decrypt(BigInt(enc_ul[0]));
+  // const dec_ul_lat = privateKey.decrypt(BigInt(enc_ul[1]));
+  const dec_ul_lon = (enc_ul[0]);
+  const dec_ul_lat = (enc_ul[1]);
   if(dec_ul_lon>=area_range[0] && dec_ul_lon<= area_range[1] && dec_ul_lat>=area_range[2] && dec_ul_lat<=area_range[3]){
     return true
   }
@@ -33,9 +35,17 @@ app.listen(PORT, async () => {
 
 app.post('/fhe_check',(req,res)=>{
     try {
-        const enc_userLoc = req.body.enc_ul;
+        let enc_userLoc = req.body.enc_ul;
+        const access_loc = req.body.access_loc;
+        const permit = in_permitted_location(enc_userLoc,access_loc);
+        if(permit){
+            res.status(200).json({access: true});
+        }
+        else{
+            res.status(200).json({access: false});
+        }
         
     } catch (error) {
-        console.log(error);
+        res.status(500).json({ message: error })
     }
 })
