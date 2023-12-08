@@ -48,12 +48,12 @@ app.post('/fhe_check', (req, res) => {
      const access_loc = req.body.access_loc
     const permit = in_permitted_location([enc_userLat,enc_userLon], [access_loc_1,access_loc_2,access_loc_3,access_loc_4])
     if (permit) {
-      res.status(200).json({ access: true })
+      res.status(200).send(1)
     } else {
-      res.status(200).json({ access: false })
+      res.status(200).send(1)
     }
   } catch (error) {
     console.log(error)
-    res.status(500).json({ message: error })
+    res.status(500).send(2)
   }
 })
