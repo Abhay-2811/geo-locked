@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { events } from '@/app/constants/events'
+import { events,block_exp } from '@/app/constants/events'
 import Image from 'next/image'
 import { Divider } from '@nextui-org/divider'
 import { Button } from '@nextui-org/button'
@@ -12,17 +12,24 @@ import * as chains from 'viem/chains'
 import { Geo_nft_usingAirnode } from '@/app/constants/contract_data'
 import { mintNFT } from '../../utils/contract_utils'
 import { useWalletClient } from 'wagmi'
+import { Snippet } from '@nextui-org/snippet'
+import { Link } from '@nextui-org/link'
 
 const page = ({ params }) => {
   const [loading, setLoading] = useState({ bool: true, result: -1 })
   const [position, setPosition] = useState({ lat: null, long: null })
   const [validity_area, setValidity_area] = useState([])
+  const [encL, setEncL] = useState([])
 
   const encryptLoc = () => {
     const { lat: latitude, long: longitude } = position
     console.log(latitude, longitude)
     const publicKey = new paillier.PublicKey(585083n, 304245819903n)
     console.log([publicKey.encrypt(latitude), publicKey.encrypt(longitude)])
+    setEncL([
+      Number(publicKey.encrypt(latitude)),
+      Number(publicKey.encrypt(longitude))
+    ])
     return [
       Number(publicKey.encrypt(latitude)),
       Number(publicKey.encrypt(longitude))
@@ -105,7 +112,7 @@ const page = ({ params }) => {
             {events[params.id].name}
           </span>
         </h1>
-        <div className='flex items-center justify-between gap-28'>
+        <div className='flex items-center justify-between gap-16'>
           <div>
             <Image
               src={events[params.id].thumbnail_url}
@@ -114,8 +121,6 @@ const page = ({ params }) => {
               className='rounded border border-white'
             ></Image>
           </div>
-
-          <Divider orientation='vertical' className='bg-blue-300' />
 
           <div className='flex flex-col items-center text-3xl gap-5'>
             <h2>You are in the permitted area of minitng !! </h2>
@@ -130,6 +135,15 @@ const page = ({ params }) => {
                 />
               }
             </h2>
+            {encL.length == 0 ? (
+              <></>
+            ) : (
+              <Snippet size='lg' variant='solid' color='primary' >
+                {encL.toString()} [This is the FHE encrypted location sent
+                on-chain for verification so rest assured]
+                <span>This might take few minutes to complete, depending on the chain</span>
+              </Snippet>
+            )}
             <Button color='primary' size='lg' onClick={handleMint}>
               Mint
             </Button>

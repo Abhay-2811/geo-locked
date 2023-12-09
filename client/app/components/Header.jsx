@@ -3,13 +3,16 @@ import React from 'react'
 import { Button } from '@nextui-org/button'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { encryptLoc } from '@/app/utils/fhe_util'
+import Link from 'next/link'
 const Header = () => {
 
   return (
     <div className='mt-14 flex flex-col items-center gap-2'>
+      <Link href={'/'}>
       <h1 className='text-4xl font-extrabold leading-none tracking-tight bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent'>
         Geo-Locked
       </h1>
+      </Link>
       <p>
         Mint verifiable Geo-Restricted NFTs implementing Fully Homomorphic
         Encryption [FHE]{' '}

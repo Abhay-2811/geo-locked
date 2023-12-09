@@ -4,7 +4,8 @@ import {
   baseGoerli,
   fantomTestnet,
   lineaTestnet,
-  goerli
+  goerli,
+  fantom
 } from 'viem/chains'
 
 
@@ -17,6 +18,15 @@ export const chain_mapping = {
     'https://res.coinpaper.com/coinpaper/ethereum_eth_logo_b64861bd15.svg',
   fantom: 'https://res.coinpaper.com/coinpaper/fantom_ftm_logo_5b62819c57.png',
   linea: 'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg'
+}
+
+export const block_exp = {
+  1442: polygonZkEvmTestnet.blockExplorers.default.url,
+  421613: arbitrumGoerli.blockExplorers.default.url,
+  84531: baseGoerli.blockExplorers.default.url,
+  5: goerli.blockExplorers.default.url,
+  4002: fantomTestnet.blockExplorers.default.url,
+  59140: lineaTestnet.blockExplorers.default.url
 }
 
 export const events = [
