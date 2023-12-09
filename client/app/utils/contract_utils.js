@@ -9,8 +9,8 @@ import {
 import * as chains from 'viem/chains'
 import { AirnodeRrpV0 } from '../constants/events'
 import { events } from '../constants/events'
-import {airnode_const} from '../constants/airnode_configs'
-
+import { airnode_const } from '../constants/airnode_configs'
+import { encodeCallData } from './fhe_util'
 export const deployContract = async (
   chainId,
   walletClient,
@@ -56,17 +56,41 @@ export const deployContract = async (
   }
 }
 
-export const mintNFT = async (walletClient, chainId, id) => {
+export const mintNFT = async (
+  walletClient,
+  chainId,
+  id,
+  enc_ul,
+  access_loc
+) => {
+  console.log(chainId, id, enc_ul, access_loc)
   await walletClient.switchChain({ id: chainId })
   const [account] = await walletClient.getAddresses()
+  const publicClient = createPublicClient({
+    chain: extractChain({
+      chains: Object.values(chains),
+      id: chainId
+    }),
+    transport: http()
+  })
   if (account) {
-    const encodedRequest = ''
-    const { request } = walletClient.simulateContract({
-        account,
-        address: events[id].contract_add,
-        abi: Geo_nft_usingAirnode.abi,
-        functionName: 'makeRequest',
-        args:[airnode_const.address,airnode_const.endpoint,events[id].contract_add,events[id].sponsor_wallet,]
+    
+    const encodedRequest = encodeCallData(enc_ul, access_loc)
+    console.log(Geo_nft_usingAirnode.abi);
+    const { request } = await publicClient.simulateContract({
+      account,
+      address: events[id].contract_add,
+      abi: Geo_nft_usingAirnode.abi,
+      functionName: 'makeRequest',
+      args: [
+        airnode_const.address,
+        airnode_const.endpoint,
+        events[id].contract_add,
+        events[id].sponsor_wallet,
+        encodedRequest
+      ]
     })
+    const hash = await walletClient.writeContract(request)
+    await publicClient.waitForTransactionReceipt({ hash })
   }
 }

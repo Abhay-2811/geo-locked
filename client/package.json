@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@api3/airnode-abi": "^0.13.0",
     "@api3/airnode-admin": "^0.13.0",
     "@lighthouse-web3/sdk": "^0.3.0",
     "@nextui-org/react": "^2.2.9",

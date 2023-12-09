@@ -3,12 +3,11 @@ const paillierBigint = require('paillier-bigint')
 
 
 async function smt(){
-    const pub = new paillierBigint.PublicKey(585083n,304245819903n);
-    const priv = new paillierBigint.PrivateKey(291720n,522637n,pub)
-    const ecv =pub.encrypt(99999);
-    console.log({1: pub.encrypt(35563),2: pub.encrypt(29876)});
+    const publicKey = new paillierBigint.PublicKey(585083n, 304245819903n)
+    const privateKey = new paillierBigint.PrivateKey(291720n, 522637n, publicKey)
+    const value =[95650028990, 284635815732]
 
-    console.log({1: ecv, 2: priv.decrypt(ecv)});
+    console.log({1: privateKey.decrypt(value[0]), 2: privateKey.decrypt(value[1])});
 }
 
 smt()

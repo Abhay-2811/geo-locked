@@ -33,6 +33,10 @@ const defaultChains = [
   {
     ...lineaTestnet,
     iconUrl:chain_mapping.linea
+  },
+  {
+    ...fantomTestnet,
+    iconUrl:chain_mapping.fantom
   }
 ]
 

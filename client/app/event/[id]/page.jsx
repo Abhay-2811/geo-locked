@@ -10,21 +10,22 @@ import * as paillier from 'paillier-bigint'
 import { extractChain, createPublicClient, http } from 'viem'
 import * as chains from 'viem/chains'
 import { Geo_nft_usingAirnode } from '@/app/constants/contract_data'
+import { mintNFT } from '../../utils/contract_utils'
+import { useWalletClient } from 'wagmi'
 
 const page = ({ params }) => {
   const [loading, setLoading] = useState({ bool: true, result: -1 })
-  const [position, setPosition] = useState({ lat: null , long: null })
+  const [position, setPosition] = useState({ lat: null, long: null })
+  const [validity_area, setValidity_area] = useState([])
 
-  const encryptLoc = position => {
-    const { latitude, longitude } = position.coords
+  const encryptLoc = () => {
+    const { lat: latitude, long: longitude } = position
+    console.log(latitude, longitude)
     const publicKey = new paillier.PublicKey(585083n, 304245819903n)
-    console.log([
-      publicKey.encrypt(Math.floor(latitude * 1000)),
-      publicKey.encrypt(Math.floor(longitude * 1000))
-    ])
+    console.log([publicKey.encrypt(latitude), publicKey.encrypt(longitude)])
     return [
-      publicKey.encrypt(Math.floor(latitude * 1000)),
-      publicKey.encrypt(Math.floor(longitude * 1000))
+      Number(publicKey.encrypt(latitude)),
+      Number(publicKey.encrypt(longitude))
     ]
   }
 
@@ -45,14 +46,18 @@ const page = ({ params }) => {
       abi: Geo_nft_usingAirnode.abi,
       functionName: 'get_permitted_area'
     })
-    console.log(validity_area)
+    setValidity_area([
+      validity_area[0],
+      validity_area[1],
+      validity_area[2],
+      validity_area[3]
+    ])
     if (
       latitude >= Number(validity_area[0]) &&
       latitude <= Number(validity_area[1]) &&
       longitude >= Number(validity_area[2]) &&
       longitude <= Number(validity_area[3])
     ) {
-      console.log(true)
       setLoading({ bool: false, result: 1 })
       setPosition({ lat: latitude, long: longitude })
     } else {
@@ -62,17 +67,31 @@ const page = ({ params }) => {
     // events[params.id].
   }
 
-  const handleMint = async e => {
-    e.preventDefault()
-  }
-
+  let wc
   if (typeof window !== 'undefined') {
+    const { data: walletClient } = useWalletClient({
+      onError (error) {
+        console.log('Error', error)
+      }
+    })
+    wc = walletClient
     const locErrCallback = async position => {
       alert('Error fetching position !!!')
     }
     navigator.geolocation.getCurrentPosition(check_eligibility, locErrCallback)
   }
-  
+  const handleMint = async e => {
+    e.preventDefault()
+    // const encryptLoc =
+    await mintNFT(
+      wc,
+      events[params.id].chainId,
+      params.id,
+      encryptLoc(),
+      validity_area
+    )
+  }
+
   if (loading.bool) {
     return <Loading text={'Checking Your Eligibility ...'} />
   }
@@ -109,8 +128,7 @@ const page = ({ params }) => {
                   size='md'
                   className='object-scale-down'
                 />
-              }{' '}
-              {events[params.id].chain}
+              }
             </h2>
             <Button color='primary' size='lg' onClick={handleMint}>
               Mint
