@@ -5,6 +5,9 @@ import { Select, SelectSection, SelectItem } from '@nextui-org/select'
 import { chains } from '../constants/events'
 import UploadFile from './UploadFIle'
 import { goerli } from 'viem/chains'
+import {Geo_nft_usingAirnode} from '../constants/contract_data'
+import { useWalletClient } from 'wagmi'
+import {deployContract} from '../utils/contract_utils'
 
 const CreateEvent = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +22,16 @@ const CreateEvent = () => {
     setFormData(prevFormData => ({ ...prevFormData, [name]: value }));
     console.log(formData);
   }
+  let wc
+  if (typeof window !== 'undefined') {
+    const { data: walletClient } = useWalletClient({
+      onError (error) {
+        console.log('Error', error)
+      }
+    })
+    wc = walletClient
+   
+  }
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
@@ -31,8 +44,12 @@ const CreateEvent = () => {
     //5. Done
 
     //api3 part
+    console.log(formData.chain);
     if(formData.chain !== 0 && formData.chain !== goerli.id){
-      //1.deplloy contract
+      //1.deploy contract
+      const input_permitted_area = formData.map.slice(1,-1).split(",");
+      const address = await deployContract(formData.chain,wc,formData.NFTname,formData.NFTsymbol,[Number(input_permitted_area[0]),Number(input_permitted_area[1]),Number(input_permitted_area[2]),Number(input_permitted_area[3])]);
+      console.log(address);
     }
     console.log("submit");
   }

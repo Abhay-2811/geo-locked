@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 const EventsList = () => {
   return (
-    <div className='flex mx-20 my-5'>
+    <div className='grid grid-cols-3 gap-20 mx-20 my-10'>
       {events.map((events, index) => (
         <>
           <Event_card
@@ -19,7 +19,7 @@ const EventsList = () => {
             thumbnail_url={events.thumbnail_url}
             chain_url={events.chain_url}
           />
-          <Spacer x={16} y={16} />
+          {/* <Spacer x={16} y={16} /> */}
         </>
       ))}
     </div>
@@ -38,8 +38,8 @@ const Event_card = props => {
           alt='Card background'
           className='rounded-xl border border-black'
           src={props.thumbnail_url}
-          width={270}
-          height={270}
+          width={370}
+          height={370}
         />
       </CardBody>
       <CardFooter className='justify-between'>
