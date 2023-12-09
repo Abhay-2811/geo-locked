@@ -33,7 +33,7 @@ export const events = [
   {
     name: 'EthIndia',
     chain_url: chain_mapping.linea,
-    thumbnail_url: '/EthIndia.png',
+    thumbnail_url: '/ethindia.png',
     chainId: lineaTestnet.id,
     contract_add:'0x9dC4638e22936Da7723B4923e0Bfe249d4A7fa62',
     sponsor_wallet: '0x591D7705Cfe97b34ab321FC0e8Cd9A888c280Bcc'
