@@ -8,7 +8,6 @@ import {
   fantom
 } from 'viem/chains'
 
-
 export const chain_mapping = {
   polygon:
     'https://assets-global.website-files.com/6364e65656ab107e465325d2/642235057dbc06788f6c45c1_polygon-zkevm-logo.png',
@@ -35,7 +34,7 @@ export const events = [
     chain_url: chain_mapping.linea,
     thumbnail_url: '/ethindia.png',
     chainId: lineaTestnet.id,
-    contract_add:'0x9dC4638e22936Da7723B4923e0Bfe249d4A7fa62',
+    contract_add: '0x9dC4638e22936Da7723B4923e0Bfe249d4A7fa62',
     sponsor_wallet: '0x591D7705Cfe97b34ab321FC0e8Cd9A888c280Bcc'
   },
   {
@@ -43,8 +42,8 @@ export const events = [
     chain_url: chain_mapping.base,
     thumbnail_url: '/ethistanbul.png',
     chainId: baseGoerli.id,
-    contract_add: '0xaa87F6Ff58D587b286a8EE98629D4b5CB2c506A7',
-    sponsor_wallet: '0x24A6Aaba6845a88c7C38997b5E4D06f9D5D556Ec'
+    contract_add: '0x91E2044f85246C739260F051e00D33742c858fca',
+    sponsor_wallet: '0xc5D80a78eeC0a9b019021D9A17d2696EA0866caD'
   },
   {
     name: 'Scaling Ethereum',

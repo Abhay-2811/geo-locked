@@ -31,18 +31,11 @@ export const deployContract = async (
     permittedArea[3]
   )
   if (account) {
+    console.log(account)
     const hash = await walletClient.deployContract({
       ...Geo_nft_usingAirnode,
       account,
-      args: [
-        AirnodeRrpV0[chainId],
-        NFTname,
-        NFTsymbol,
-        permittedArea[0],
-        permittedArea[1],
-        permittedArea[2],
-        permittedArea[3]
-      ]
+      args: [AirnodeRrpV0[chainId],NFTname,NFTsymbol,Number(permittedArea[0]),Number(permittedArea[1]),Number(permittedArea[2]),Number(permittedArea[3])]
     })
     const publicClient = createPublicClient({
       chain: extractChain({
@@ -74,9 +67,8 @@ export const mintNFT = async (
     transport: http()
   })
   if (account) {
-    
     const encodedRequest = encodeCallData(enc_ul, access_loc)
-    console.log(Geo_nft_usingAirnode.abi);
+    console.log(Geo_nft_usingAirnode.abi)
     const { request } = await publicClient.simulateContract({
       account,
       address: events[id].contract_add,

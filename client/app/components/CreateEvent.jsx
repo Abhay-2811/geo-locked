@@ -51,7 +51,7 @@ const CreateEvent = () => {
       const address = await deployContract(formData.chain,wc,formData.NFTname,formData.NFTsymbol,[Number(input_permitted_area[0]),Number(input_permitted_area[1]),Number(input_permitted_area[2]),Number(input_permitted_area[3])]);
       console.log(address);
     }
-    console.log("submit");
+
   }
   return (
     <form className='flex flex-col ml-40 mr-40 my-5 dark mb-10' onSubmit={handleSubmit}>
