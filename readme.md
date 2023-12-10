@@ -8,7 +8,8 @@ Using FHE i.e Homomorphic Encryption we can send user's encrypted location freel
 
 The project "Geo Locked NFT" depicts one of many use cases that FHE unlocks in web3.
 
-//chart
+![FHE_1](https://github.com/Abhay-2811/geo-locked/assets/97840499/4a959929-5719-42b0-a173-aeedc8c80831)
+
 
 ## Deployed FHE Handler Contract Addresses [All are testnets]
 
