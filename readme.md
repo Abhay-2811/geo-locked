@@ -1,6 +1,6 @@
 # Geo-Locked NFTs
 
-Geo-Locked NFTs do exact;y what they sound like, they are geo-restricted and user can only mint them in specific location, as decided by owner of NFT. 
+Geo-Locked NFTs do exactly what they sound like, they are geo-restricted and user can only mint them in specific location, as decided by owner of NFT. 
 
 ## How Is It Possible?
 
